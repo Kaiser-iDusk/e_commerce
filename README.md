@@ -2,8 +2,7 @@
 
 [![Django](https://img.shields.io/badge/Django-5.0+-green.svg)](https://www.djangoproject.com/)
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Made with ❤️ in India](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red.svg)]()
+[![Made with ❤️ by Kaiser-iDusk](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red.svg)]()
 
 A Django project configured for **India Standard Time (IST)**, ensuring time-sensitive features like scheduling respect your local timezone and prevent users from selecting a time earlier than the current time.
 
@@ -31,7 +30,7 @@ python -m venv venv
 source venv/bin/activate  
 ```
 
-# On Windows: 
+On Windows: 
 ```powershell
 venv\Scripts\activate
 ```
@@ -48,7 +47,7 @@ TIME_ZONE = 'Asia/Kolkata'
 USE_TZ = True
 ```
 
-# ⏱ Time Validation Example
+⏱ Time Validation Example
 In your form or model clean method:
 
 ```python
