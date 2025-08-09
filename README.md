@@ -155,88 +155,51 @@ Access the app at http://127.0.0.1:8000.
 
 ### 📷 Screenshots
 
-Note: Replace <image-path> with actual paths to screenshots once captured.
-
-
-
-
-
-Homepage
-Displays product listings with search functionality.
+<b> Homepage </b>
+- Displays product listings with search functionality.
 ![Homepage](/homepage.png)
 
-
-
-Cart Page
-Shows cart items with quantity controls and total calculation.
+<b> Cart Page </b>
+- Shows cart items with quantity controls and total calculation.
 ![Cart](/cart.png)
 
-
-
-Checkout Page
-Address selection and delivery time picker with validation.
+<b> Checkout Page </b>
+- Address selection and delivery time picker with validation.
 ![Checkout](/checkout.png)
 
-
-
-Payment Page
-Payment method selection for order completion.
+<b> Payment Page </b>
+- Payment method selection for order completion.
 ![Payment](/payment.png)
 
-
-
-Order Confirmation
-Confirmation screen after successful order placement.
+<b> Order Confirmation </b>
+- Confirmation screen after successful order placement.
 ![Order Confirmation](/order_confirmation.png)
 
 
+### 🛠️ Development Notes
 
-🛠️ Development Notes
+- Custom Template Tags: The multiply filter (shop/templatetags/shop_tags.py) calculates cart item totals.
 
+- 2FA: Console-based OTP for development; configure Twilio for production.
 
+- Emails: Console-based in development (EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'); configure SMTP for production.
 
+- Stock Management: Products are removed when stock reaches zero; no restocking on returns.
 
+- Celery: Made single threaded to reduce workload and semaphore issues in Windows.
 
-Custom Template Tags: The multiply filter (shop/templatetags/shop_tags.py) calculates cart item totals.
+### 🐛 Troubleshooting
 
+- Template Errors: Ensure shop/templatetags/shop_tags.py and __init__.py exist, and restart the server.
 
+- Form Validation: Check terminal for form errors if checkout fails.
 
-2FA: Console-based OTP for development; configure Twilio for production.
+- Database Issues: Run python manage.py makemigrations and migrate after model changes.
 
-
-
-Emails: Console-based in development (EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'); configure SMTP for production.
-
-
-
-Stock Management: Products are removed when stock reaches zero; no restocking on returns.
-
-
-
-Celery: Removed due to Windows compatibility issues; synchronous tasks used for emails.
-
-🐛 Troubleshooting
-
-
-
-
-
-Template Errors: Ensure shop/templatetags/shop_tags.py and __init__.py exist, and restart the server.
-
-
-
-Form Validation: Check terminal for form errors if checkout fails.
-
-
-
-Database Issues: Run python manage.py makemigrations and migrate after model changes.
-
-
-
-Logs: Check terminal or DEBUG=True logs for errors.
+- Logs: Check terminal or DEBUG=True logs for errors.
 
 For issues, check the Django admin or share error tracebacks.
 
 📬 Contact
 
-For support or contributions, contact [your-email@example.com] or open an issue on the repository.
+For support or contributions, contact [palshirsendu03@example.com](mailto:palshirsendu03@example.com) or open an issue on the repository.
