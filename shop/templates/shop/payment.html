@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Select Payment Method</h2>
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div class="space-y-2">
+            {% for method in payment_methods %}
+                <label class="flex items-center space-x-2">
+                    <input type="radio" name="payment_method" value="{{ method }}" class="form-radio text-blue-600" required>
+                    <span class="text-gray-700">{{ method }}</span>
+                </label>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn-hover w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700">Confirm Payment</button>
+    </form>
+</div>
+{% endblock %}

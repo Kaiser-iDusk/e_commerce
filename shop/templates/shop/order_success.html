@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-8 text-center">
+    <h2 class="text-3xl font-bold text-green-600 mb-6">Order Placed Successfully!</h2>
+    <p class="text-gray-600 mb-4">Order ID: {{ order.order_id }}</p>
+    <p class="text-gray-600 mb-4">Delivery to: {{ order.address }}</p>
+    <p class="text-gray-600 mb-4">Expected Delivery: {{ order.preferred_delivery_time }}</p>
+    <a href="{% url 'home' %}" class="btn-hover inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">Continue Shopping</a>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Set Up Two-Factor Authentication</h2>
+    <p class="text-gray-600 mb-4">An OTP has been sent to your phone number. Please enter it below.</p>
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div>
+            <label for="{{ form.otp.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.otp.label }}</label>
+            <input type="text" name="otp" id="{{ form.otp.id_for_label }}"
+                   class="mt-1 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none {% if form.otp.errors %}border-red-500{% endif %}" required>
+            {% for error in form.otp.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn-hover w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700">Verify OTP</button>
+    </form>
+</div>
+{% endblock %}

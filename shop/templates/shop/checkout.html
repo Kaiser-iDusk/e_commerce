@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Checkout</h2>
+
+    <form method="post" class="space-y-6" id="checkout-form">
+        {% csrf_token %}
+
+        <!-- Address Section -->
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold text-gray-700">Address Details</h3>
+            <div class="flex items-center space-x-2">
+                {{ address_form.use_existing }}
+                <label for="use-existing" class="text-gray-700">Use existing address</label>
+            </div>
+
+            <!-- Existing address dropdown -->
+            <div id="existing-address-section" class="{% if not address_form.use_existing.value %}hidden{% endif %}">
+                <label for="{{ address_form.existing_address.id_for_label }}" class="block text-gray-700">Select Address</label>
+                {{ address_form.existing_address|add_class:"w-full border-gray-300 rounded-lg shadow-sm" }}
+            </div>
+
+            <!-- New address form -->
+            <div id="new-address-section" class="{% if address_form.use_existing.value %}hidden{% endif %} space-y-4">
+                <div>
+                    <label for="{{ address_form.street.id_for_label }}" class="block text-gray-700">Street</label>
+                    {{ address_form.street|add_class:"w-full border-gray-300 rounded-lg shadow-sm" }}
+                </div>
+                <div>
+                    <label for="{{ address_form.city.id_for_label }}" class="block text-gray-700">City</label>
+                    {{ address_form.city|add_class:"w-full border-gray-300 rounded-lg shadow-sm" }}
+                </div>
+                <div>
+                    <label for="{{ address_form.state.id_for_label }}" class="block text-gray-700">State</label>
+                    {{ address_form.state|add_class:"w-full border-gray-300 rounded-lg shadow-sm" }}
+                </div>
+                <div>
+                    <label for="{{ address_form.zip_code.id_for_label }}" class="block text-gray-700">ZIP Code</label>
+                    {{ address_form.zip_code|add_class:"w-full border-gray-300 rounded-lg shadow-sm" }}
+                </div>
+                <div>
+                    <label for="{{ address_form.country.id_for_label }}" class="block text-gray-700">Country</label>
+                    {{ address_form.country|add_class:"w-full border-gray-300 rounded-lg shadow-sm" }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Delivery Time -->
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold text-gray-700">Delivery Time</h3>
+            {{ delivery_form.preferred_delivery_time|add_class:"w-full border-gray-300 rounded-lg shadow-sm" }}
+        </div>
+
+        <!-- Error display -->
+        {% if address_form.errors or delivery_form.errors %}
+            <div class="text-red-600 bg-red-100 p-4 rounded-lg">
+                {% for field in address_form %}
+                    {% for error in field.errors %}
+                        <p>{{ field.label }}: {{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for field in delivery_form %}
+                    {% for error in field.errors %}
+                        <p>{{ field.label }}: {{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in address_form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 w-full">
+            Proceed to Payment
+        </button>
+    </form>
+</div>
+
+<script>
+document.getElementById('use-existing').addEventListener('change', function() {
+    const useExisting = this.checked;
+    document.getElementById('existing-address-section').classList.toggle('hidden', !useExisting);
+    document.getElementById('new-address-section').classList.toggle('hidden', useExisting);
+});
+
+// Set minimum date-time for delivery time input
+document.addEventListener('DOMContentLoaded', function() {
+    const deliveryInput = document.querySelector('[name="preferred_delivery_time"]');
+    if (deliveryInput) {
+        const now = new Date();
+        // Convert to India time by offsetting UTC +5:30
+        const indiaOffsetMinutes = 330; // 5.5 hours
+        const indiaNow = new Date(now.getTime() + (indiaOffsetMinutes - now.getTimezoneOffset()) * 60000);
+        indiaNow.setSeconds(0, 0);
+        indiaNow.setMinutes(indiaNow.getMinutes() + 1);
+
+        const pad = (n) => String(n).padStart(2, '0');
+        const minStr = `${indiaNow.getFullYear()}-${pad(indiaNow.getMonth() + 1)}-${pad(indiaNow.getDate())}T${pad(indiaNow.getHours())}:${pad(indiaNow.getMinutes())}`;
+        deliveryInput.min = minStr;
+        if (!deliveryInput.value) {
+            deliveryInput.value = minStr;
+        }
+    }
+});
+</script>
+{% endblock %}

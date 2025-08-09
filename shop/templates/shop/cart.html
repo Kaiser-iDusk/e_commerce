@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load shop_tags %}
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Your Cart</h2>
+    {% if cart_items %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Product</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Price</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Quantity</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Total</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for cart_item in cart_items %}
+                        <tr>
+                            <td class="px-6 py-4 text-gray-800">{{ cart_item.product.name }}</td>
+                            <td class="px-6 py-4 text-gray-800">${{ cart_item.product.price }}</td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center space-x-3">
+                                    <a href="{% url 'update_cart_quantity' cart_item.pk 'decrease' %}" class="btn-hover bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300">-</a>
+                                    <span class="text-gray-800">{{ cart_item.quantity }}</span>
+                                    <a href="{% url 'update_cart_quantity' cart_item.pk 'increase' %}" class="btn-hover bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300">+</a>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-gray-800">${{ cart_item.product.price|floatformat:2|multiply:cart_item.quantity }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-6 flex justify-between items-center">
+            <h3 class="text-xl font-semibold text-gray-800">Total: ${{ total|floatformat:2 }}</h3>
+            <a href="{% url 'checkout' %}" class="btn-hover bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">Proceed to Checkout</a>
+        </div>
+    {% else %}
+        <p class="text-gray-600 text-center">Your cart is empty.</p>
+        <a href="{% url 'home' %}" class="btn-hover bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 mt-4 inline-block">Continue Shopping</a>
+    {% endif %}
+</div>
+{% endblock %}
