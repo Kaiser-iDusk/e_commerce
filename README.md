@@ -21,5 +21,58 @@ A Django project configured for **India Standard Time (IST)**, ensuring time-sen
 
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/yourusername/your-django-project.git
-cd your-django-project
+git clone https://github.com/Kaiser-iDusk/e_commerce.git
+cd e_commerce
+```
+
+### 2️⃣ Create and activate a virtual environment
+```bash
+python -m venv venv
+source venv/bin/activate  
+```
+
+# On Windows: 
+```powershell
+venv\Scripts\activate
+```
+
+### 3️⃣ Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4️⃣ Configure Timezone in settings.py
+```python
+# settings.py
+TIME_ZONE = 'Asia/Kolkata'
+USE_TZ = True
+```
+
+# ⏱ Time Validation Example
+In your form or model clean method:
+
+```python
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+from datetime import timedelta
+
+def clean_preferred_time(self):
+    preferred_time = self.cleaned_data['preferred_time']
+    now = timezone.localtime(timezone.now()) + timedelta(minutes=1)  # 1 min buffer
+    if preferred_time < now:
+        raise ValidationError("Please choose a time at least 1 minute from now.")
+    return preferred_time
+```
+
+### ▶ Run the project
+```bash
+python manage.py migrate
+python manage.py runserver
+```
+
+### 🛠 Tech Stack
+Backend: Django
+
+Database: SQLite / PostgreSQL
+
+Frontend: HTML, CSS, JS, jQUery
